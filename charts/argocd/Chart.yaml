@@ -13,5 +13,5 @@ maintainers:
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "initial commit"
+    - "initial commit 0.1.0"
   artifacthub.io/prerelease: "true"
