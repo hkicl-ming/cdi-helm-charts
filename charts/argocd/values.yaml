@@ -57,9 +57,3 @@ argo-cd:
         - type: helm
           url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
           name: istio.io
-    # notifications:
-    #   # -- Fixture
-    #   # @default -- for v2.3 ArgoCD bundle with Notifications and ApplicationSet, this is to correct the access right for Notification
-    #   securityContext:
-    #     runAsNonRoot: true
-    #     runAsUser: 999
