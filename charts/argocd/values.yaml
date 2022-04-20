@@ -13,7 +13,7 @@ argo-cd:
     image:
       # -- custom image with helm-secret
       repository: "ghcr.io/hkicl-ming/argocd-custom"
-      tag: "2.3.3"
+      tag: "2.2.6"
       # -- imagePullPolicy
       # @default -- internal value
       imagePullPolicy: IfNotPresent
@@ -57,3 +57,9 @@ argo-cd:
         - type: helm
           url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
           name: istio.io
+    # notifications:
+    #   # -- Fixture
+    #   # @default -- for v2.3 ArgoCD bundle with Notifications and ApplicationSet, this is to correct the access right for Notification
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 999
