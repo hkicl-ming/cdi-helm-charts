@@ -15,14 +15,13 @@ artifactRepository:
 
 # -- target ns to create "workflow" SA
 targets:
-  - namespace: n0
+  - namespace: orderer
 
 argo-workflows:
   images:
     # -- imagePullPolicy to apply to all containers
     pullPolicy: Always
-    # -- Fixture
-    # @default -- internal value
+    # -- Secrets with credentials to pull images from a private registry
     pullSecrets: []
     # - name: argo-pull-secret
 
@@ -36,20 +35,18 @@ argo-workflows:
   # -- String to fully override "argo-workflows.fullname" template
   fullnameOverride:
 
-  # -- Fixture
-  # @default -- internal value
+  # -- Override the Kubernetes version, which is used to evaluate certain manifests
   kubeVersionOverride: ""
 
-  # -- Fixture
-  # @default -- internal value
+  # -- Restrict Argo to operate only in a single namespace (the namespace of the
+  # Helm release) by apply Roles and RoleBindings instead of the Cluster
+  # equivalents, and start workflow-controller with the --namespaced flag. Use it
+  # in clusters with strict access policy.
   singleNamespace: false
 
   workflow:
     # -- Deprecated; use controller.workflowNamespaces instead.
-    # @default -- internal value
     namespace:
-    # -- Fixture
-    # @default -- internal value
     serviceAccount:
       # -- Specifies whether a service account should be created
       create: false
@@ -57,16 +54,12 @@ argo-workflows:
       annotations: {}
       # -- Service account which is used to run workflows
       name: "argo-workflow"
-    # -- Fixture
-    # @default -- internal value
     rbac:
       # -- Adds Role and RoleBinding for the above specified service account to be able to run workflows.
       # A Role and Rolebinding pair is also created for each namespace in controller.workflowNamespaces (see below)
       create: true
 
   controller:
-    # -- Fixture
-    # @default -- internal value
     image:
       # -- Registry to use for the controller
       registry: quay.io
@@ -79,9 +72,14 @@ argo-workflows:
     # -- Globally limits the rate at which pods are created.
     # This is intended to mitigate flooding of the Kubernetes API server by workflows with a large amount of
     # parallel nodes.
-    resourceRateLimit: {}
-    # limit: 10
-    # burst: 1
+    resourceRateLimit:
+      {}
+      # limit: 10
+      # burst: 1
+
+    rbac:
+      # -- Adds Role and RoleBinding for the controller.
+      create: true
 
     # -- Limits the maximum number of incomplete workflows in a namespace
     namespaceParallelism:
@@ -91,16 +89,12 @@ argo-workflows:
     podAnnotations:
       sidecar.istio.io/rewriteAppHTTPProbers: "false"
     # -- Optional labels to add to the controller pods
-    # @default -- internal value
     podLabels:
       app: argo
-      version: 3.2.4
-    # -- Fixture
-    # @default -- internal value
+      version: 3.2.9
+    # -- SecurityContext to set on the controller pods
     podSecurityContext: {}
     # podPortName: http
-    # -- Fixture
-    # @default -- internal value
     metricsConfig:
       # -- Enables prometheus metrics server
       enabled: false
@@ -115,7 +109,6 @@ argo-workflows:
       # -- Service metrics port name
       servicePortName: metrics
     # -- the controller container's securityContext
-    # @default -- internal value
     securityContext:
       readOnlyRootFilesystem: true
       runAsNonRoot: true
@@ -149,9 +142,9 @@ argo-workflows:
     # Only valid for 2.7+
     ## See more: https://argoproj.github.io/argo-workflows/default-workflow-specs/
     workflowDefaults:
-      spec:
-        ttlStrategy:
-          secondsAfterCompletion: 84600
+    spec:
+      ttlStrategy:
+        secondsAfterCompletion: 84600
 
     # -- Number of workflow workers
     workflowWorkers: 32
@@ -159,14 +152,12 @@ argo-workflows:
     podWorkers: 32
     # -- Restricts the Workflows that the controller will process.
     # Only valid for 2.9+
-    # @default -- internal value
-    workflowRestrictions: {}
-    # templateReferencing: Strict|Secure
+    workflowRestrictions:
+      {}
+      # templateReferencing: Strict|Secure
 
     # telemetryConfig controls the path and port for prometheus telemetry. Telemetry is enabled and emitted in the same endpoint
     # as metrics by default, but can be overridden using this config.
-    # -- Fixture
-    # @default -- internal value
     telemetryConfig:
       # -- Enables prometheus telemetry server
       enabled: false
@@ -183,8 +174,8 @@ argo-workflows:
       enabled: false
       # -- Prometheus ServiceMonitor labels
       additionalLabels: {}
-    # -- Fixture
-    # @default -- internal value
+      # -- Prometheus ServiceMonitor namespace
+      namespace: "" # "monitoring"
     serviceAccount:
       # -- Create a service account for the controller
       create: true
@@ -194,7 +185,6 @@ argo-workflows:
       annotations: {}
 
     # -- Workflow controller name string
-    # @default -- internal value
     name: workflow-controller
 
     # -- Specify all namespaces where this workflow controller instance will manage
@@ -203,21 +193,19 @@ argo-workflows:
     workflowNamespaces:
       - default
       - argo
+      - orderer
+      - peer
 
     # -- Specifies the container runtime interface to use (one of: `docker`, `kubelet`, `k8sapi`, `pns`, `emissary`)
     ## Ref: https://argoproj.github.io/argo-workflows/workflow-executors/
-    # @default -- internal value
     containerRuntimeExecutor: docker
     # -- Specifies the executor to use. This has precedence over `controller.containerRuntimeExecutor`.
-    # @default -- internal value
     containerRuntimeExecutors:
       []
       # - name: emissary
       #   selector:
-    #     matchLabels:
-    #       workflows.argoproj.io/container-runtime-executor: emissary
-    # -- Fixture
-    # @default -- internal value
+      #     matchLabels:
+      #       workflows.argoproj.io/container-runtime-executor: emissary
     instanceID:
       # -- Configures the controller to filter workflow submissions
       # to only those which have a matching instanceID attribute.
@@ -239,16 +227,12 @@ argo-workflows:
       globallevel: "0"
 
     # -- Service type of the controller Service
-    # @default -- internal value
     serviceType: ClusterIP
     # -- Annotations to be applied to the controller Service
-    # @default -- internal value
     serviceAnnotations: {}
     # -- Optional labels to add to the controller Service
-    # @default -- internal value
     serviceLabels: {}
     # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
-    # @default -- internal value
     loadBalancerSourceRanges: []
 
     # -- Resource limits and requests for the controller
@@ -266,18 +250,22 @@ argo-workflows:
       timeoutSeconds: 30
 
     # -- Extra environment variables to provide to the controller container
-    extraEnv: []
-    # - name: FOO
-    #   value: "bar"
+    extraEnv:
+      []
+      # - name: FOO
+      #   value: "bar"
 
     # -- Extra arguments to be added to the controller
     extraArgs: []
+    # -- Additional volume mounts to the controller main container
+    volumeMounts: []
+    # -- Additional volumes to the controller pod
+    volumes: []
     # -- The number of controller pods to run
     replicas: 1
 
     pdb:
       # -- Configure [Pod Disruption Budget] for the controller pods
-      # @default -- internal value
       enabled: false
       # minAvailable: 1
       # maxUnavailable: 1
@@ -286,14 +274,11 @@ argo-workflows:
     nodeSelector:
       kubernetes.io/os: linux
     # -- [Tolerations] for use with node taints
-    # @default -- internal value
     tolerations: []
     # -- Assign custom [affinity] rules
-    # @default -- internal value
     affinity: {}
     # -- Leverage a PriorityClass to ensure your pods survive resource shortages.
     ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
-    # @default -- internal value
     priorityClassName: ""
 
     # -- Configure Argo Server to show custom [links]
@@ -306,7 +291,6 @@ argo-workflows:
     extraContainers: []
 
   # executor controls how the init and wait container should be customized
-  # @default -- internal value
   executor:
     image:
       # -- Registry to use for the Workflow Executors
@@ -330,8 +314,6 @@ argo-workflows:
     ## it's expected that a proxy server rewrites the request URL and gets rid of this prefix
     ## https://github.com/argoproj/argo-workflows/issues/716#issuecomment-433213190
     baseHref: /
-    # -- Fixture
-    # @default -- internal value
     image:
       # -- Registry to use for the server
       registry: quay.io
@@ -343,14 +325,17 @@ argo-workflows:
     podAnnotations:
       sidecar.istio.io/rewriteAppHTTPProbers: "false"
       sidecar.istio.io/logLevel: "warning"
+
     # -- Optional labels to add to the UI pods
     podLabels:
       app: argo
-      version: 3.2.4
+      version: 3.2.9
     # -- SecurityContext to set on the server pods
     podSecurityContext: {}
+    rbac:
+      # -- Adds Role and RoleBinding for the server.
+      create: true
     # -- Servers container-level security context
-    # @default -- internal value
     securityContext:
       readOnlyRootFilesystem: false
       runAsNonRoot: true
@@ -359,23 +344,16 @@ argo-workflows:
         drop:
           - ALL
     # -- Server name string
-    # @default -- internal value
     name: server
     # -- Service type for server pods
-    # @default -- internal value
     serviceType: ClusterIP
     # -- Service port for server
-    # @default -- internal value
     servicePort: 2746
     # -- Service node port
-    # @default -- internal value
     serviceNodePort: # 32746
     # -- Service port name
-    # @default -- internal value
-    servicePortName: "http-argoserver"
+    servicePortName: "http-argoserver" # http
 
-    # -- Fixture
-    # @default -- internal value
     serviceAccount:
       # -- Create a service account for the server
       create: true
@@ -385,23 +363,17 @@ argo-workflows:
       annotations: {}
 
     # -- Annotations to be applied to the UI Service
-    # @default -- internal value
     serviceAnnotations: {}
     # -- Optional labels to add to the UI Service
-    # @default -- internal value
     serviceLabels: {}
     # -- Static IP address to assign to loadBalancer service type `LoadBalancer`
-    # @default -- internal value
     loadBalancerIP: ""
     # -- Source ranges to allow access to service from. Only applies to service type `LoadBalancer`
-    # @default -- internal value
     loadBalancerSourceRanges: []
     # -- Resource limits and requests for the server
     resources: {}
     # -- The number of server pods to run
     replicas: 1
-    # -- Fixture
-    # @default -- internal value
     pdb:
       # -- Configure [Pod Disruption Budget] for the server pods
       enabled: false
@@ -413,16 +385,13 @@ argo-workflows:
       kubernetes.io/os: linux
 
     # -- [Tolerations] for use with node taints
-    # @default -- internal value
     tolerations: []
 
     # -- Assign custom [affinity] rules
-    # @default -- internal value
     affinity: {}
 
     # -- Leverage a PriorityClass to ensure your pods survive resource shortages
     ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
-    # @default -- internal value
     priorityClassName: ""
 
     # -- Run the argo server in "secure" mode. Configure this value instead of `--secure` in extraArgs.
@@ -431,12 +400,18 @@ argo-workflows:
     secure: false
 
     # -- Extra environment variables to provide to the argo-server container
-    extraEnv: []
-    # - name: FOO
-    #   value: "bar"
+    extraEnv:
+      []
+      # - name: FOO
+      #   value: "bar"
 
-    # -- Extra arguments to provide to the Argo server binary.
+    # -- Extra arguments to provide to the Argo server binary, such as for disabling authentication.
     extraArgs:
+      # If you want to disable authentication for purposes such as:
+      #   - local dev-mode without authentication
+      #   - gateway authentication through some other service such as KeyCloak
+      # uncomment the lines below and comment out the default empty list `extraArgs: []` above:
+      # extraArgs:
       - --auth-mode=client
 
     # -- Additional volume mounts to the server main container.
@@ -446,7 +421,6 @@ argo-workflows:
 
     ## Ingress configuration.
     # ref: https://kubernetes.io/docs/user-guide/ingress/
-    # @default -- internal value
     ingress:
       # -- Enable an ingress resource
       enabled: false
@@ -460,8 +434,9 @@ argo-workflows:
       # -- List of ingress hosts
       ## Hostnames must be provided if Ingress is enabled.
       ## Secrets must be manually created in the namespace
-      hosts: []
-      # - argoworkflows.example.com
+      hosts:
+        []
+        # - argoworkflows.example.com
 
       # -- List of ingress paths
       paths:
@@ -482,15 +457,15 @@ argo-workflows:
         #   backend:
         #     service
         #       name: ssl-redirect
-      #       port:
-      #         name: use-annotation
+        #       port:
+        #         name: use-annotation
 
       # -- Ingress TLS configuration
       tls:
         []
         # - secretName: argoworkflows-example-tls
-      #   hosts:
-      #     - argoworkflows.example.com
+        #   hosts:
+        #     - argoworkflows.example.com
 
     clusterWorkflowTemplates:
       # -- Create a ClusterRole and CRB for the server to access ClusterWorkflowTemplates.
@@ -526,8 +501,8 @@ argo-workflows:
       ## Scopes requested from the SSO ID provider.  The 'groups' scope requests
       ## group membership information, which is usually used for authorization
       ## decisions.
-    # scopes:
-    # - groups
+      # scopes:
+      # - groups
 
     # -- Extra containers to be added to the server deployment
     extraContainers: []
@@ -556,6 +531,8 @@ argo-workflows:
       # region:
       # roleARN:
       # useSDKCreds: true
+      # encryptionOptions:
+      #    enableEncryption: true
     # -- Store artifact in a GCS object store
     # @default -- `{}` (See [values.yaml])
     gcs: {}
