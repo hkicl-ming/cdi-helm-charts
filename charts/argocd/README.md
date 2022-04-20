@@ -2,7 +2,7 @@
 
 Custom Argo installation with helm-secrets and aws-kms
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.5.3](https://img.shields.io/badge/AppVersion-4.5.3-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.35.4](https://img.shields.io/badge/AppVersion-3.35.4-informational?style=flat-square)
 
 ## TL;DR
 
@@ -28,7 +28,7 @@ $ helm install my-chart cd-helm-charts/argocd
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://argoproj.github.io/argo-helm | argo-cd | 4.5.3 |
+| https://argoproj.github.io/argo-helm | argo-cd | 3.35.4 |
 
 ## Values
 
@@ -36,7 +36,7 @@ $ helm install my-chart cd-helm-charts/argocd
 |-----|------|---------|-------------|
 | argo-cd.global.image.imagePullPolicy | string | internal value | imagePullPolicy |
 | argo-cd.global.image.repository | string | `"ghcr.io/hkicl-ming/argocd-custom"` | custom image with helm-secret |
-| argo-cd.global.image.tag | string | `"2.3.3"` |  |
+| argo-cd.global.image.tag | string | `"2.2.6"` |  |
 | argo-cd.global.securityContext.fsGroup | int | `2000` |  |
 | argo-cd.repoServer.logLevel | string | `"info"` |  |
 | argo-cd.repoServer.volumeMounts | list | internal value | Fixture |
