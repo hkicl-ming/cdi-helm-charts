@@ -13,7 +13,7 @@ argo-cd:
     image:
       # -- custom image with helm-secret
       repository: "ghcr.io/hkicl-ming/argocd-custom"
-      tag: "2.1.7"
+      tag: "2.3.3"
       # -- imagePullPolicy
       # @default -- internal value
       imagePullPolicy: IfNotPresent

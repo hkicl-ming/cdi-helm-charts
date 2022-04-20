@@ -2,31 +2,33 @@
 
 Custom Argo installation with helm-secrets and aws-kms
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.28.1](https://img.shields.io/badge/AppVersion-3.28.1-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.5.3](https://img.shields.io/badge/AppVersion-4.5.3-informational?style=flat-square)
 
 ## TL;DR
 
 ### Release Notes
-- v0.1.9 fix an essential bug. Do not use prior version.
+- v0.2.0 initial import. Custom ArgoCD v2.3.3 with Helm Secret v3.13.0
+
+- v0.1.0 initial import. Custom ArgoCD v2.1.7 with Helm Secret v2.0.2
 
 ### References
-- [My custom image for Argocd](https://github.com/rtang03/docker-argocd)
+- [My custom image for Argocd](https://github.com/hkicl-ming/argocd-custom)
 - [argo-helm](https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd)
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `my-chart`:
 
 ```console
-$ helm repo add dashslab https://rtang03.github.io/helm-charts
-$ helm install my-release dashslab/argocd
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/argocd
 ```
 
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://argoproj.github.io/argo-helm | argo-cd | 3.28.1 |
+| https://argoproj.github.io/argo-helm | argo-cd | 4.5.3 |
 
 ## Values
 
@@ -34,7 +36,7 @@ $ helm install my-release dashslab/argocd
 |-----|------|---------|-------------|
 | argo-cd.global.image.imagePullPolicy | string | internal value | imagePullPolicy |
 | argo-cd.global.image.repository | string | `"ghcr.io/hkicl-ming/argocd-custom"` | custom image with helm-secret |
-| argo-cd.global.image.tag | string | `"2.1.7"` |  |
+| argo-cd.global.image.tag | string | `"2.3.3"` |  |
 | argo-cd.global.securityContext.fsGroup | int | `2000` |  |
 | argo-cd.repoServer.logLevel | string | `"info"` |  |
 | argo-cd.repoServer.volumeMounts | list | internal value | Fixture |

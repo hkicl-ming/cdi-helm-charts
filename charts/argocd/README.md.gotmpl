@@ -6,19 +6,21 @@
 ## TL;DR
 
 ### Release Notes
-- v0.1.9 fix an essential bug. Do not use prior version.
+- v0.2.0 initial import. Custom ArgoCD v2.3.3 with Helm Secret v3.13.0
+
+- v0.1.0 initial import. Custom ArgoCD v2.1.7 with Helm Secret v2.0.2
 
 ### References
-- [My custom image for Argocd](https://github.com/rtang03/docker-argocd)
+- [My custom image for Argocd](https://github.com/hkicl-ming/argocd-custom)
 - [argo-helm](https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd)
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `my-chart`:
 
 ```console
-$ helm repo add dashslab https://rtang03.github.io/helm-charts
-$ helm install my-release dashslab/{{ template "chart.name" . }}
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/{{ template "chart.name" . }}
 ```
 
 {{ template "chart.requirementsSection" . }}

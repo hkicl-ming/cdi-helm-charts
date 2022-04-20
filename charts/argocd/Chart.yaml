@@ -1,17 +1,17 @@
 name: argocd
 apiVersion: v2
-version: 0.1.0
-appVersion: 3.28.1
+version: 0.2.0
+appVersion: 4.5.3
 description: Custom Argo installation with helm-secrets and aws-kms
 type: application
 dependencies:
   - name: argo-cd
-    version: 3.28.1
+    version: 4.5.3
     repository: "https://argoproj.github.io/argo-helm"
 maintainers:
   - name: "ming.reinfo"
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "initial commit 0.1.0"
+    - "updated helm chart to 4.5.3 with ArgoCD v2.3.3 and custom added Helm Secret v3.13.0"
   artifacthub.io/prerelease: "true"
