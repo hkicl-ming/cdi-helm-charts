@@ -67,6 +67,27 @@ entries:
   argowf:
   - annotations:
       artifacthub.io/changes: |
+        - "updated to helm chart 0.13.1 with argo-workflow version v3.2.9"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 3.2.9
+    created: "2022-04-20T10:51:44.364246621Z"
+    dependencies:
+    - name: argo-workflows
+      repository: https://argoproj.github.io/argo-helm
+      version: 0.13.1
+    description: Custom Argo Workflow installation
+    digest: 34258832a6ec7f16ee8bbdb5cf15a35ff8afdf504433d1140a01d2e49ee3fd7a
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: argowf
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/argowf-0.2.0/argowf-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - "initial import"
       artifacthub.io/prerelease: "true"
     apiVersion: v2
@@ -86,4 +107,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/argowf-0.1.0/argowf-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-20T10:11:52.562502756Z"
+generated: "2022-04-20T10:51:44.36426052Z"
