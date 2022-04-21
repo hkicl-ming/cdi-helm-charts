@@ -1,0 +1,193 @@
+# -- enr-ca|tls-ca
+appname: enr-ca
+
+# -- Organization name
+orgname: ORGNAME
+
+tlsca:
+  # -- tlsca adminpw
+  adminpw: xxxx
+
+enrollmentca:
+  # -- enrollmentca adminpw
+  adminpw: xxxx
+
+# -- tlsca.org1.cdi.testnet
+fqdn: "TYPE-ORG.domain.net"
+
+# -- Fixture
+# @default -- internal value
+replicaCount: 1
+
+# -- Fixture
+# @default -- internal value
+image:
+  pullPolicy: IfNotPresent
+
+timezone: Asia/Hong_Kong
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+persistence:
+  # -- Fixture
+  # @default -- internal value
+  enabled: true
+  # -- Fixture
+  # @default -- internal value
+  annotations: {}
+  # -- Fixture
+  # @default -- internal value
+  storageClass: ""
+  # -- Fixture
+  # @default -- internal value
+  accessMode: ReadWriteOnce
+  size: 50Mi
+  # -- Fixture
+  # @default -- internal value
+  mountPath: "/var/artifacts"
+  # existingClaim: ""
+
+podAnnotations:
+  # -- Fixture
+  # @default -- internal value
+  sidecar.istio.io/rewriteAppHTTPProbers: "false"
+  # trace|debug|info|warning|error|critical|off
+  sidecar.istio.io/logLevel: "warning"
+
+# -- Fixture
+# @default -- internal value
+adminName: ca-admin
+
+# -- Fixture
+# @default -- internal value
+caServerHome: /var/artifacts/caserver
+
+# -- Fixture
+# @default -- internal value
+imagePullSecrets: []
+
+# -- Fixture
+# @default -- internal value
+nameOverride: ""
+
+# -- Fixture
+# @default -- internal value
+fullnameOverride: ""
+
+# -- Fixture
+# @default -- internal value
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+# -- Fixture
+# @default -- internal value
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# -- Fixture
+# @default -- internal value
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Fixture
+# @default -- internal value
+service:
+  type: ClusterIP
+  ports:
+    - port: 7054
+      targetPort: 7054
+      protocol: TCP
+      name: tls-request
+    - port: 9443
+      targetPort: 9443
+      protocol: TCP
+      name: http-metrics
+
+# -- Fixture
+# @default -- internal value
+istioService:
+  enabled: true
+  ports:
+    - port: 7054
+      name: https-ext-listen-endpoint
+      protocol: HTTPS
+      destPort: 7054
+    - port: 80
+      name: http-ext-metrics
+      protocol: HTTP
+      destPort: 9443
+      match:
+        - port: 80
+        - uri:
+            exact: /healthz
+
+livenessProbe:
+  successThreshold: 1
+  failureThreshold: 3
+  # -- Fixture
+  # @default -- internal value
+  httpGet:
+    scheme: HTTP
+    path: /healthz
+    port: 9443
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+readinessProbe:
+  successThreshold: 1
+  failureThreshold: 3
+  # -- Fixture
+  # @default -- internal value
+  httpGet:
+    scheme: HTTP
+    path: /healthz
+    port: 9443
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+# -- Fixture
+# @default -- internal value
+configmap:
+  enabled: true
+  data: "config/*.*"
+  mountPath: "/setup"
+
+# -- Fixture
+# @default -- internal value
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# -- Fixture
+# @default -- internal value
+nodeSelector: {}
+
+# -- Fixture
+# @default -- internal value
+tolerations: []
+
+# -- Fixture
+# @default -- internal value
+affinity: {}
