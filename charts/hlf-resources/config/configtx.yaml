@@ -1,0 +1,224 @@
+################################################################################
+#
+#   Section: Organizations
+#
+#   - This section defines the different organizational identities which will
+#   be referenced later in the configuration.
+#
+################################################################################
+Organizations:
+
+   - &org0
+      Name: org0
+      ID: Org0MSP
+      MSPDir: /tmp/org0/msp
+
+      Policies:
+         Readers:
+            Type: Signature
+            Rule: "OR('Org0MSP.member')"
+         Writers:
+            Type: Signature
+            Rule: "OR('Org0MSP.member')"
+         Admins:
+            Type: Signature
+            Rule: "OR('Org0MSP.admin')"
+
+   - &org1
+      Name: org1
+      ID: Org1MSP
+      MSPDir: /tmp/org1/msp
+
+      Policies:
+         Readers:
+            Type: Signature
+            Rule: "OR('Org1MSP.member')"
+         Writers:
+            Type: Signature
+            Rule: "OR('Org1MSP.member')"
+         Admins:
+            Type: Signature
+            Rule: "OR('Org1MSP.admin')"
+         Endorsement:
+            Type: Signature
+            Rule: "OR('Org1MSP.member')"
+
+      OrdererEndpoints:
+         - <<<ORDERER0-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+         - <<<ORDERER1-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+         - <<<ORDERER2-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+         - <<<ORDERER3-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+         - <<<ORDERER4-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+
+      AnchorPeers:
+         - Host: <<<P0O1-EXT-ADDRESS>>>
+           Port: <<<PEER-EXT-PORT>>>
+
+Capabilities:
+   Channel: &ChannelCapabilities
+      V2_0: true
+      V1_4_3: false
+   Orderer: &OrdererCapabilities
+      V2_0: true
+      V1_4_2: false
+   Application: &ApplicationCapabilities
+      V2_0: true
+      V1_4_2: false
+
+################################################################################
+#
+#   SECTION: Application
+#
+#   This section defines the values to encode into a config transaction or
+#   genesis block for application related parameters
+#
+################################################################################
+Application: &ApplicationDefaults
+
+   # Organizations is the list of orgs which are defined as participants on
+   # the application side of the network
+   Organizations:
+   Policies:
+      # Readers:
+      #    Type: ImplicitMeta
+      #    Rule: "ANY Readers"
+      # Writers:
+      #    Type: ImplicitMeta
+      #    Rule: "ANY Writers"
+      # Admins:
+      #    Type: ImplicitMeta
+      #    Rule: "MAJORITY Admins"
+      # LifecycleEndorsement:
+      #    Type: ImplicitMeta
+      #    Rule: "MAJORITY Endorsement"
+      # Endorsement:
+      #    Type: ImplicitMeta
+      #    Rule: "MAJORITY Endorsement"
+      # See: https://hyperledger-fabric.readthedocs.io/en/release-2.3/access_control.html
+      Readers:
+         Type: ImplicitMeta
+         Rule: "ANY Readers"
+      Writers:
+         Type: ImplicitMeta
+         Rule: "ANY Writers"
+      Admins:
+         Type: Signature
+         Rule: "OR('Org1MSP.admin')"
+      LifecycleEndorsement:
+         Type: Signature
+         Rule: "OR('Org1MSP.member')"
+      # Specify policy here instead of in cc approval and cc commit.
+      Endorsement:
+         Type: ImplicitMeta
+         Rule: "ANY Writers"
+
+   Capabilities:
+      <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+
+   OrdererType: etcdraft
+   Addresses:
+      - <<<ORDERER0-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+      - <<<ORDERER1-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+      - <<<ORDERER2-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+      - <<<ORDERER3-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+      - <<<ORDERER4-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+   BatchTimeout: 2s
+   BatchSize:
+      MaxMessageCount: 500
+      AbsoluteMaxBytes: 99 MB
+      PreferredMaxBytes: 2 MB
+   MaxChannels: 10
+   EtcdRaft:
+      Consenters:
+         - Host: <<<ORDERER0-EXT-ADDRESS>>>
+           Port: <<<ORDERER-EXT-PORT>>>
+           ClientTLSCert: /secret/orderer0/tlscert.pem
+           ServerTLSCert: /secret/orderer0/tlscert.pem
+         - Host: <<<ORDERER1-EXT-ADDRESS>>>
+           Port: <<<ORDERER-EXT-PORT>>>
+           ClientTLSCert: /secret/orderer1/tlscert.pem
+           ServerTLSCert: /secret/orderer1/tlscert.pem
+         - Host: <<<ORDERER2-EXT-ADDRESS>>>
+           Port: <<<ORDERER-EXT-PORT>>>
+           ClientTLSCert: /secret/orderer2/tlscert.pem
+           ServerTLSCert: /secret/orderer2/tlscert.pem
+         - Host: <<<ORDERER3-EXT-ADDRESS>>>
+           Port: <<<ORDERER-EXT-PORT>>>
+           ClientTLSCert: /secret/orderer3/tlscert.pem
+           ServerTLSCert: /secret/orderer3/tlscert.pem
+         - Host: <<<ORDERER4-EXT-ADDRESS>>>
+           Port: <<<ORDERER-EXT-PORT>>>
+           ClientTLSCert: /secret/orderer4/tlscert.pem
+           ServerTLSCert: /secret/orderer4/tlscert.pem
+
+      Options:
+         TickInterval: 500ms
+         ElectionTick: 10
+         HeartbeatTick: 1
+         MaxInflightBlocks: 5
+         SnapshotIntervalSize: 20 MB
+
+   Organizations:
+   Policies:
+      Readers:
+         Type: ImplicitMeta
+         Rule: "ANY Readers"
+      Writers:
+         Type: ImplicitMeta
+         Rule: "ANY Writers"
+      Admins:
+         Type: ImplicitMeta
+         Rule: "MAJORITY Admins"
+      BlockValidation:
+         Type: ImplicitMeta
+         Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+   Policies:
+      Readers:
+         Type: ImplicitMeta
+         Rule: "ANY Readers"
+      Writers:
+         Type: ImplicitMeta
+         Rule: "ANY Writers"
+      Admins:
+         Type: ImplicitMeta
+         Rule: "MAJORITY Admins"
+
+   Capabilities:
+      <<: *ChannelCapabilities
+
+################################################################################
+#
+#   Profile
+#
+#   Different configuration profiles may be encoded here to be specified as
+#   parameters to the configtxgen tool.
+#
+################################################################################
+Profiles:
+
+   OrgsOrdererGenesis:
+      <<: *ChannelDefaults
+      Orderer:
+         <<: *OrdererDefaults
+         Organizations:
+            - *org0
+         Capabilities:
+            <<: *OrdererCapabilities
+      Consortiums:
+         cdiNetwork:
+            Organizations:
+               - *org1
+
+   OrgsChannel:
+      Consortium: cdiNetwork
+      <<: *ChannelDefaults
+      Application:
+         <<: *ApplicationDefaults
+         Organizations:
+            - *org1
+         Capabilities:
+            <<: *ApplicationCapabilities

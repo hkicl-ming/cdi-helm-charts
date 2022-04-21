@@ -1,0 +1,23 @@
+{{- if .Values.artifactRepository.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cdi-artifact-repositories
+  annotations:
+    # v3.0 and after - if you want to use a specific key, put that's key into this annotation 
+    # workflows.argoproj.io/default-artifact-repository: default-v1
+data:
+  {{ .Values.artifactRepository.keyFormat }}: |
+    archive: none
+    archiveLogs: false
+    s3:
+      endpoint: {{ .Values.artifactRepository.endpoint }}
+      bucket: {{ .Values.artifactRepository.bucket }}
+      keyFormat: {{ .Values.artifactRepository.keyFormat }}
+      accessKeySecret:
+        name: aws-s3-credentials
+        key: accessKey
+      secretKeySecret:
+        name: aws-s3-credentials
+        key: secretKey
+{{- end }}

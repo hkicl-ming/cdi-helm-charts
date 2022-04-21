@@ -1,0 +1,32 @@
+################################################################################
+#
+#   Section: Organizations
+#
+#   - This section defines the different organizational identities which will
+#   be referenced later in the configuration.
+#
+################################################################################
+Organizations:
+
+   - &org1
+      Name: <<<ORG-NAME>>>
+      ID: <<<MSPID>>>
+      MSPDir: <<<MSPDIR>>>
+
+      Policies:
+         Readers:
+            Type: Signature
+            Rule: "OR('<<<MSPID>>>.member')"
+         Writers:
+            Type: Signature
+            Rule: "OR('<<<MSPID>>>.member')"
+         Admins:
+            Type: Signature
+            Rule: "OR('<<<MSPID>>>.admin')"
+         Endorsement:
+            Type: Signature
+            Rule: "OR('<<<MSPID>>>.member')"
+
+      AnchorPeers:
+         - Host: <<<P0-EXT-ADDRESS>>>
+           Port: <<<PEER-EXT-PORT>>>

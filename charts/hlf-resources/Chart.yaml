@@ -1,0 +1,13 @@
+name: hlf-resources
+apiVersion: v2
+version: 0.1.0
+appVersion: 0.1.0
+description: A Helm Chart to create resources for a namespace
+type: application
+maintainers:
+  - name: "ming.reinfo"
+    email: "ming.reinfo@gmail.com"
+annotations:
+  artifacthub.io/changes: |
+    - "initial commit"
+  artifacthub.io/prerelease: "true"
