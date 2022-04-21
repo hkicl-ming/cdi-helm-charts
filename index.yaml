@@ -110,6 +110,23 @@ entries:
   hlf-resources:
   - annotations:
       artifacthub.io/changes: |
+        - "updated configtx.yaml"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 0.1.1
+    created: "2022-04-21T06:34:25.461218081Z"
+    description: A Helm Chart to create resources for a namespace
+    digest: fcad167ca2f3e39b5953a66f2e1f61e9799ef45e496559f0cc32ff6a74578a17
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-resources
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.1/hlf-resources-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - "initial commit"
       artifacthub.io/prerelease: "true"
     apiVersion: v2
@@ -125,4 +142,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-21T06:02:28.993739738Z"
+generated: "2022-04-21T06:34:25.461258982Z"
