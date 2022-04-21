@@ -107,6 +107,24 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/argowf-0.1.0/argowf-0.1.0.tgz
     version: 0.1.0
+  hlf-ca:
+  - annotations:
+      artifacthub.io/changes: |
+        - "initial import"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.5.0
+    created: "2022-04-21T09:52:13.58852177Z"
+    description: Hyperledger Fabric CA Chart
+    digest: f121ca0ffb7f5d84d3ba9d52e249cd65f0bd6a3985856c3649d9867722209b63
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-ca
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-ca-0.1.0/hlf-ca-0.1.0.tgz
+    version: 0.1.0
   hlf-resources:
   - annotations:
       artifacthub.io/changes: |
@@ -176,4 +194,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-21T08:09:31.924830028Z"
+generated: "2022-04-21T09:52:13.58854107Z"
