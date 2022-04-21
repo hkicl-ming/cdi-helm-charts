@@ -73,9 +73,9 @@ spec:
             - name: FABRIC_CA_SERVER_HOME
               value: {{ .Values.caServerHome }}
             - name: FABRIC_CA_SERVER_CSR_CN
-              value: "{{ include "appname" . }}-{{ include "orgname" . }}"
+              value: "{{ include "orgname" . }}-{{ include "appname" . }}"
             - name: FABRIC_CA_SERVER_CA_NAME
-              value: "{{ include "appname" . }}-{{ include "orgname" . }}"
+              value: "{{ include "orgname" . }}-{{ include "appname" . }}"
             - name: ADMIN
               value: "{{ .Values.adminName }}"
             - name: ADMINPW

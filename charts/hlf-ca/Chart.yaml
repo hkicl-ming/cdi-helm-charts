@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hlf-ca
-version: 0.1.0
+version: 0.1.1
 appVersion: 1.5.0
 description: Hyperledger Fabric CA Chart
 type: application
@@ -9,5 +9,5 @@ maintainers:
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "initial import"
+    - "update fabric-ca-server-config.yaml"
   artifacthub.io/prerelease: "true"
