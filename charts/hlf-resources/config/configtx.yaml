@@ -8,40 +8,21 @@
 ################################################################################
 Organizations:
 
-   - &org0
-      Name: org0
-      ID: Org0MSP
-      MSPDir: /tmp/org0/msp
+   - &orderer
+      Name: orderer
+      ID: OrdererMSP
+      MSPDir: /tmp/orderer/msp
 
       Policies:
          Readers:
             Type: Signature
-            Rule: "OR('Org0MSP.member')"
+            Rule: "OR('OrdererMSP.member')"
          Writers:
             Type: Signature
-            Rule: "OR('Org0MSP.member')"
+            Rule: "OR('OrdererMSP.member')"
          Admins:
             Type: Signature
-            Rule: "OR('Org0MSP.admin')"
-
-   - &org1
-      Name: org1
-      ID: Org1MSP
-      MSPDir: /tmp/org1/msp
-
-      Policies:
-         Readers:
-            Type: Signature
-            Rule: "OR('Org1MSP.member')"
-         Writers:
-            Type: Signature
-            Rule: "OR('Org1MSP.member')"
-         Admins:
-            Type: Signature
-            Rule: "OR('Org1MSP.admin')"
-         Endorsement:
-            Type: Signature
-            Rule: "OR('Org1MSP.member')"
+            Rule: "OR('OrdererMSP.admin')"
 
       OrdererEndpoints:
          - <<<ORDERER0-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
@@ -49,6 +30,25 @@ Organizations:
          - <<<ORDERER2-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
          - <<<ORDERER3-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
          - <<<ORDERER4-EXT-ADDRESS>>>:<<<ORDERER-EXT-PORT>>>
+
+   - &hkicl
+      Name: hkicl
+      ID: HkiclMSP
+      MSPDir: /tmp/hkicl/msp
+
+      Policies:
+         Readers:
+            Type: Signature
+            Rule: "OR('HkiclMSP.member')"
+         Writers:
+            Type: Signature
+            Rule: "OR('HkiclMSP.member')"
+         Admins:
+            Type: Signature
+            Rule: "OR('HkiclMSP.admin')"
+         Endorsement:
+            Type: Signature
+            Rule: "OR('HkiclMSP.member')"
 
       AnchorPeers:
          - Host: <<<P0O1-EXT-ADDRESS>>>
@@ -103,10 +103,10 @@ Application: &ApplicationDefaults
          Rule: "ANY Writers"
       Admins:
          Type: Signature
-         Rule: "OR('Org1MSP.admin')"
+         Rule: "OR('HkiclMSP.admin')"
       LifecycleEndorsement:
          Type: Signature
-         Rule: "OR('Org1MSP.member')"
+         Rule: "OR('HkiclMSP.member')"
       # Specify policy here instead of in cc approval and cc commit.
       Endorsement:
          Type: ImplicitMeta
@@ -205,13 +205,13 @@ Profiles:
       Orderer:
          <<: *OrdererDefaults
          Organizations:
-            - *org0
+            - *orderer
          Capabilities:
             <<: *OrdererCapabilities
       Consortiums:
          cdiNetwork:
             Organizations:
-               - *org1
+               - *hkicl
 
    OrgsChannel:
       Consortium: cdiNetwork
@@ -219,6 +219,6 @@ Profiles:
       Application:
          <<: *ApplicationDefaults
          Organizations:
-            - *org1
+            - *hkicl
          Capabilities:
             <<: *ApplicationCapabilities
