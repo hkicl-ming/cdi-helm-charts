@@ -5,7 +5,6 @@ metadata:
   name: cm-{{ include "appname" . }}
   labels:
     {{- include "hlf-resources.labels" . | nindent 4 }}
-    cm.hkicl/name: cm-{{ include "appname" . }}
 data:
 {{ (.Files.Glob .Values.configmap.data).AsConfig | indent 2 }}
 {{- end }}

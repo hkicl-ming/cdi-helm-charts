@@ -46,6 +46,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "hlf-resources.selectorLabels" -}}
+app: {{ .Chart.Name }}
+version: {{ .Chart.Version }}
 app.kubernetes.io/name: {{ include "hlf-resources.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
@@ -62,15 +64,15 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-HKICL App Name
+App Name
 */}}
 {{- define "appname" -}}
 {{- default (include "hlf-resources.fullname" .) .Values.appname }}
 {{- end }}
 
 {{/*
-HKICL Org Name
+Org Name
 */}}
-{{- define "hkicl.orgname" -}}
+{{- define "orgname" -}}
 {{- default "default-org" .Values.orgname }}
 {{- end }}

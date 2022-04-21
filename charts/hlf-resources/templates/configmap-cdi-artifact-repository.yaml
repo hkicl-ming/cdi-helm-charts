@@ -20,4 +20,13 @@ data:
       secretKeySecret:
         name: aws-s3-credentials
         key: secretKey
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-s3-credentials
+type: Opaque
+data:
+  accessKey: {{ .Values.artifactRepository.accesskey | b64enc | quote }}
+  secretKey: {{ .Values.artifactRepository.secretKey | b64enc | quote }}        
 {{- end }}
