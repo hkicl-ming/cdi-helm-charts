@@ -107,4 +107,22 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/argowf-0.1.0/argowf-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-20T10:51:44.36426052Z"
+  hlf-resources:
+  - annotations:
+      artifacthub.io/changes: |
+        - "initial commit"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-04-21T06:02:28.993595338Z"
+    description: A Helm Chart to create resources for a namespace
+    digest: 2f659cdc3f2953d2fbdef52bb980df68e38022268c5954989e26f448dbe479dd
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-resources
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-04-21T06:02:28.993739738Z"
