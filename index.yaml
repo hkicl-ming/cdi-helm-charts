@@ -110,6 +110,23 @@ entries:
   hlf-ca:
   - annotations:
       artifacthub.io/changes: |
+        - "update fabric-ca-server-config.yaml"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.5.0
+    created: "2022-04-21T11:00:00.441710583Z"
+    description: Hyperledger Fabric CA Chart
+    digest: ce983dccf3e82865c2afd2f39995f1f4dfb91e06aec48f70aa91200a57da9696
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-ca
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-ca-0.1.1/hlf-ca-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - "initial import"
       artifacthub.io/prerelease: "true"
     apiVersion: v2
@@ -194,4 +211,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-21T09:52:13.58854107Z"
+generated: "2022-04-21T11:00:00.441728783Z"
