@@ -39,7 +39,7 @@ spec:
             name: cm-{{ include "app-orgname" . }}
         {{- end }}
       containers:
-        - name: {{ include "appname" . }}
+        - name: {{ include "hostAliasName" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "hyperledger/fabric-ca:{{ .Chart.AppVersion }}"
