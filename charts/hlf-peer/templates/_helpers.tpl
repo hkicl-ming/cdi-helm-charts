@@ -50,7 +50,7 @@ app: {{ .Chart.Name }}
 version: {{ .Chart.Version }}
 app.kubernetes.io/name: {{ include "hlf-peer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.hkicl/name: {{ include "app-orgname" . }}
+app.hkicl/name: {{ include "hostAliasName" . }}
 {{- end }}
 
 {{/*

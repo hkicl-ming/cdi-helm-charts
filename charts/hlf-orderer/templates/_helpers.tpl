@@ -50,7 +50,7 @@ app: {{ .Values.appname }}
 version: {{ .Chart.Version }}
 app.kubernetes.io/name: {{ include "hlf-orderer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.hkicl/name: {{ include "app-orgname" . }}
+app.hkicl/name: {{ include "hostAliasName" . }}
 {{- end }}
 
 {{/*
