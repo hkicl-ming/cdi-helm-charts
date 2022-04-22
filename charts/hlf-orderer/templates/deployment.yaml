@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "appname" . }}-{{ include "orgname" . }}
+  name: {{ include "hostAliasName" . }}
   labels:
     {{- include "hlf-orderer.labels" . | nindent 4 }}
 spec:
@@ -24,19 +24,19 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: sa-{{ include "appname" . }}-{{ include "orgname" . }}
+      serviceAccountName: sa-{{ include "app-orgname" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
         {{- if and .Values.persistence.enabled }}
         - name: my-pvc
           persistentVolumeClaim:
-            claimName: pvc-{{ include "appname" . }}-{{ include "orgname" . }}
+            claimName: pvc-{{ include "app-orgname" . }}
         {{- end }}
         {{- if .Values.configmap.enabled }}
         - name: my-cm
           configMap:
-            name: cm-{{ include "appname" . }}-{{ include "orgname" . }}
+            name: cm-{{ include "app-orgname" . }}
         {{- end }}
         {{- range .Values.secretvol.vol }}
         - name: {{ .name }}

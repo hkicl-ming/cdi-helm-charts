@@ -50,7 +50,7 @@ app: {{ .Values.appname }}
 version: {{ .Chart.Version }}
 app.kubernetes.io/name: {{ include "hlf-orderer.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.hkicl/name: {{ include "appname" . }}-{{ include "orgname" . }}
+app.hkicl/name: {{ include "app-orgname" . }}
 {{- end }}
 
 {{/*
@@ -76,4 +76,18 @@ Org Name
 */}}
 {{- define "orgname" -}}
 {{- default "default-org" .Values.orgname }}
+{{- end }}
+
+{{/*
+App - Org Name
+*/}}
+{{- define "app-orgname" -}}
+{{ include "appname" . }}-{{ include "orgname" . }}
+{{- end }}
+
+{{/*
+host alias Name
+*/}}
+{{- define "hostAliasName" -}}
+{{ include "orgname" . }}-{{ include "appname" . }}
 {{- end }}

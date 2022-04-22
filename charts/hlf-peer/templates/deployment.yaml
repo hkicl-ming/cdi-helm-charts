@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "appname" . }}-{{ include "orgname" . }}
+  name: {{ include "hostAliasName" . }}
   labels:
     {{- include "hlf-peer.labels" . | nindent 4 }}
 spec:
@@ -24,19 +24,19 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: sa-{{ include "appname" . }}-{{ include "orgname" . }}
+      serviceAccountName: sa-{{ include "app-orgname" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
         {{- if and .Values.persistence.enabled }}
         - name: my-pvc
           persistentVolumeClaim:
-            claimName: pvc-{{ include "appname" . }}-{{ include "orgname" . }}
+            claimName: pvc-{{ include "app-orgname" . }}
         {{- end }}
         {{- if .Values.configmap.enabled }}
         - name: my-cm
           configMap:
-            name: cm-{{ include "appname" . }}-{{ include "orgname" . }}
+            name: cm-{{ include "app-orgname" . }}
         {{- end }}
         {{- if .Values.secretvol.enabled }}
         {{- range .Values.secretvol.vol }}
@@ -47,7 +47,7 @@ spec:
         {{- end }}
         - name: nginx-config
           configMap:
-            name: cm-{{ include "appname" . }}-{{ include "orgname" . }}-nginx
+            name: cm-{{ include "app-orgname" . }}-nginx
       containers:
         - name: {{ include "appname" . }}
           securityContext:
@@ -108,9 +108,9 @@ spec:
             - name: CORE_PEER_PROFILE_ENABLED
               value: "true"
             - name: CORE_PEER_ID
-              value: "{{ include "appname" . }}-{{ include "orgname" . }}"
+              value: "{{ include "hostAliasName" . }}"
             - name: CORE_PEER_ADDRESS
-              value: "{{ include "appname" . }}-{{ include "orgname" . }}:7051"
+              value: "{{ include "hostAliasName" . }}:7051"
             - name: CORE_PEER_LISTENADDRESS
               value: "0.0.0.0:7051"
             - name: CORE_PEER_CHAINCODELISTENADDRESS

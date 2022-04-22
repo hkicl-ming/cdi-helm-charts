@@ -2,7 +2,7 @@
 
 Hyperledger Fabric CA Chart
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
 
 ## TL;DR
 
@@ -32,13 +32,13 @@ helm secrets install -n [ORGNAME] -f path-to/secrets.yaml -f path-to/values-enr.
 helm secrets upgrade -n [ORGNAME] -f path-to/secrets.yaml -f path-to/values-enr.yaml enr hlf/hlf-ca
 ```
 
-## Installing the Chart
+### Install
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `my-chart`:
 
 ```console
-$ helm repo add dashslab https://rtang03.github.io/helm-charts
-$ helm install my-release dashslab/hlf-ca
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/hlf-ca
 ```
 
 ## Values

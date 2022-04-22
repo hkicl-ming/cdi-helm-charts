@@ -31,13 +31,13 @@ helm secrets install -n [ORGNAME] -f path-to/secrets.yaml -f path-to/values-enr.
 helm secrets upgrade -n [ORGNAME] -f path-to/secrets.yaml -f path-to/values-enr.yaml enr hlf/hlf-ca
 ```
 
-## Installing the Chart
+### Install
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `my-chart`:
 
 ```console
-$ helm repo add dashslab https://rtang03.github.io/helm-charts
-$ helm install my-release dashslab/{{ template "chart.name" . }}
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/{{ template "chart.name" . }}
 ```
 
 {{ template "chart.requirementsSection" . }}

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cm-{{ include "appname" . }}-{{ include "orgname" . }}
+  name: cm-{{ include "app-orgname" . }}
   labels:
     {{- include "hlf-peer.labels" . | nindent 4 }}
 data:
