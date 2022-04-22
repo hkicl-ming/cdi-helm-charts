@@ -1,0 +1,27 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+## TL;DR
+
+### Release note
+
+v.0.1.0
+
+- initial import
+
+### Install
+
+To install the chart with the release name `my-chart`:
+
+```console
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/{{ template "chart.name" . }}
+```
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}
