@@ -1,0 +1,30 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+## TL;DR
+
+NOTE: This chart is opinionated for custom project; with a pre-determined network toplogy. It is unlikely to use for general purpose.
+
+### Release notes
+
+v0.1.0
+
+- initial commit
+
+### Installing the Chart
+
+To install the chart with the release name `my-chart`:
+
+```console
+$ helm repo add cd-helm-charts https://hkicl-ming.github.io/cdi-helm-charts
+$ helm install my-chart cd-helm-charts/{{ template "chart.name" . }}
+```
+
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}

@@ -1,0 +1,258 @@
+# -- peer0 | peer1
+appname: peer0
+orgname: ORGNAME
+# -- fqdn used in Route 53 private hosted zone
+fqdn: peer0-ORGNAME.cdi.testnet
+# -- MSP ID
+mspid: MSPID
+timezone: Asia/Hong_Kong
+
+podAnnotations:
+  # -- Fixture
+  # @default -- internal value
+  sidecar.istio.io/rewriteAppHTTPProbers: "false"
+  # -- trace|debug|info|warning|error|critical|off
+  sidecar.istio.io/logLevel: "warning"
+
+persistence:
+  # -- Fixture
+  # @default -- internal value
+  enabled: true
+  # -- Fixture
+  # @default -- internal value
+  annotations: {}
+  # -- Fixture
+  # @default -- internal value
+  storageClass: ""
+  # -- Fixture
+  # @default -- internal value
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  # -- Fixture
+  # @default -- internal value
+  mountPath: "/var/artifacts"  # fixture
+  # existingClaim: ""
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 128Mi
+  # NOTE: peer-0 shall require more cpu than peer-1
+  limits:
+    cpu: 600m
+    memory: 256Mi
+
+
+###### PEER-0 or PEER-1######
+###### PEER-0 ######
+gossip:
+  # e.g. peer1-ORGNAME.cdi.testnet:7051
+  # -- fqdn used in Route 53 private hosted zone
+  bootstrap: peer1-ORGNAME.cdi.testnet:7051
+  external:
+    # -- peer0=true,peer1=false
+    enabled: true
+    # e.g. peer0-ORGNAME.cdi.testnet:7051
+    # -- only for peer0
+    endpoint: peer0-ORGNAME.cdi.testnet:7051
+
+# -- Fixture
+# @default -- internal value
+secretvol:
+  enabled: true
+  vol:
+    - name: tls-peer0
+      mountPath: /secret/tls
+    - name: msp-peer0
+      mountPath: /secret/msp
+
+###### PEER-1 ######
+#gossip:
+#  bootstrap:
+#    peer0-bochk.cdi.testnet:7051
+#  external:
+#    enabled: false
+#secretvol:
+#  enabled: true
+#  vol:
+#    - name: tls-peer1
+#      mountPath: /secret/tls
+#    - name: msp-peer1
+#      mountPath: /secret/msp
+
+nodeSelector: {}
+#  node.hkicl/nodename: node2
+
+# -- Fixture
+# @default -- internal value
+replicaCount: 1
+
+image:
+  # -- Fixture
+  # @default -- internal value
+  repository: hyperledger/fabric-peer
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 2.3.2
+
+# -- Fixture
+# @default -- internal value
+imagePullSecrets: []
+
+# -- Fixture
+# @default -- internal value
+nameOverride: ""
+
+# -- Fixture
+# @default -- internal value
+fullnameOverride: ""
+
+# -- Fixture
+# @default -- internal value
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Fixture
+# @default -- internal value
+podSecurityContext: {}
+# fsGroup: 2000
+
+# -- Fixture
+# @default -- internal value
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
+
+# -- Fixture
+# @default -- internal value
+service:
+  type: ClusterIP
+  ports:
+    - port: 7051
+      targetPort: 7051
+      protocol: TCP
+      name: tls-request
+    - port: 7052
+      targetPort: 7052
+      protocol: TCP
+      name: tls-chaincode
+    - port: 7053
+      targetPort: 7053
+      protocol: TCP
+      name: tls-event
+    - port: 9443
+      targetPort: 9443
+      protocol: TCP
+      name: http-metrics
+    - port: 1313
+      targetPort: 1313
+      protocol: TCP
+      name: tls-ping
+
+# -- Fixture
+# @default -- internal value
+istioService:
+  enabled: true
+  ports:
+    - port: 7051
+      name: tls-ext-listen-endpoint
+      protocol: TLS
+      destPort: 7051
+    - port: 7052
+      name: tls-ext-listen-chaincode
+      protocol: TLS
+      destPort: 7052
+    - port: 7053
+      name: tls-ext-listen-event
+      protocol: TLS
+      destPort: 7053
+    - port: 1313
+      name: tls-ping
+      protocol: TLS
+      destPort: 1313
+    - port: 8080
+      name: http-nginx
+      protocol: HTTP
+      destPort: 8080
+      match:
+        - uri:
+            exact: /index.html
+        - uri:
+            exact: /gupload
+        - uri:
+            exact: /rootcert.pem
+        - uri:
+            exact: /tlscert.pem
+    - port: 80
+      name: http-ext-metrics
+      protocol: HTTP
+      destPort: 9443
+      match:
+        - uri:
+            exact: /healthz
+
+livenessProbe:
+  successThreshold: 1
+  failureThreshold: 3
+  # -- Fixture
+  # @default -- internal value
+  httpGet:
+    scheme: HTTP
+    path: /healthz
+    port: 9443
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  successThreshold: 1
+  failureThreshold: 3
+  # -- Fixture
+  # @default -- internal value
+  httpGet:
+    scheme: HTTP
+    path: /healthz
+    port: 9443
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+# -- Fixture
+# @default -- internal value
+configmap:
+  enabled: true
+  data: "config/*"
+  mountPath: "/setup"
+
+# -- Fixture
+# @default -- internal value
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# -- Fixture
+# @default -- internal value
+tolerations: []
+
+# -- Fixture
+# @default -- internal value
+affinity: {}
+
+# -- Fixture
+# @default -- internal value
+certRootDir: /var/artifacts
+
+# -- Fixture
+# @default -- internal value
+cryptoDir: crypto-config
