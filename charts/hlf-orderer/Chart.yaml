@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hlf-orderer
-version: 0.1.3
+version: 0.1.4
 appVersion: 2.3.2
 description: Hyperledger Fabric Orderer Chart for CDI
 type: application
@@ -9,5 +9,6 @@ maintainers:
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "updated template variables3"
+    - "rollback template variables3"
+    - "update virtualservice hostname"
   artifacthub.io/prerelease: "true"

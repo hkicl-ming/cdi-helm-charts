@@ -21,7 +21,7 @@ spec:
       - {{ $.Values.fqdn }}
     route:
     - destination:
-        host: {{ default "hlf-peer" $.Values.appname }}-{{ default "default-org" $.Values.orgname }}.{{ $.Release.Namespace }}.svc.cluster.local
+        host: {{ default "default-org" $.Values.orgname }}-{{ default "hlf-peer" $.Values.appname }}.{{ $.Release.Namespace }}.svc.cluster.local
         port:
           number: {{ .destPort }}
       weight: 100
@@ -34,7 +34,7 @@ spec:
     {{- toYaml .match | nindent 4}}
     route:
     - destination:
-        host: {{ default "hlf-peer" $.Values.appname }}-{{ default "default-org" $.Values.orgname }}.{{ $.Release.Namespace }}.svc.cluster.local
+        host: {{ default "default-org" $.Values.orgname }}-{{ default "hlf-peer" $.Values.appname }}.{{ $.Release.Namespace }}.svc.cluster.local
         port:
           number: {{ .destPort }}
       weight: 100

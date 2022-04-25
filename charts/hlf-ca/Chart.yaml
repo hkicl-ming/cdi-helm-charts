@@ -1,13 +1,14 @@
 apiVersion: v2
 name: hlf-ca
-version: 0.1.4
+version: 0.1.5
 appVersion: 1.5.0
-description: Hyperledger Fabric CA Chart
+description: Hyperledger Fabric CA Chart for CDI
 type: application
 maintainers:
   - name: "ming.reinfo"
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "updated template variables3"
+    - "rollback template variables3"
+    - "update virtualservice hostname"
   artifacthub.io/prerelease: "true"
