@@ -110,6 +110,24 @@ entries:
   hlf-ca:
   - annotations:
       artifacthub.io/changes: |
+        - "rollback template variables3"
+        - "update virtualservice hostname"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 1.5.0
+    created: "2022-04-25T03:41:36.499892934Z"
+    description: Hyperledger Fabric CA Chart for CDI
+    digest: 14bf2e8d2bcab190f660305247729632b158916db9e4e79d42d06d404fdd4725
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-ca
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-ca-0.1.5/hlf-ca-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      artifacthub.io/changes: |
         - "updated template variables3"
       artifacthub.io/prerelease: "true"
     apiVersion: v2
@@ -196,6 +214,24 @@ entries:
   hlf-orderer:
   - annotations:
       artifacthub.io/changes: |
+        - "rollback template variables3"
+        - "update virtualservice hostname"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 2.3.2
+    created: "2022-04-25T03:41:36.627967875Z"
+    description: Hyperledger Fabric Orderer Chart for CDI
+    digest: 0d1f1038119d8bce8156c86e0592f2a52ace100096bdfb9de868c43479cebc28
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-orderer
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-orderer-0.1.4/hlf-orderer-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |
         - "updated template variables3"
       artifacthub.io/prerelease: "true"
     apiVersion: v2
@@ -263,6 +299,24 @@ entries:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-orderer-0.1.0/hlf-orderer-0.1.0.tgz
     version: 0.1.0
   hlf-peer:
+  - annotations:
+      artifacthub.io/changes: |
+        - "rollback template variables3"
+        - "update virtualservice hostname"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 2.3.2
+    created: "2022-04-25T03:41:36.745532281Z"
+    description: Hyperledger Fabric Peer Chart for CDI
+    digest: e8da4499e10a28a8c1d0ff6f345b26e985565ac11db35578b0a88cd7be1c9f5a
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-peer
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-peer-0.1.4/hlf-peer-0.1.4.tgz
+    version: 0.1.4
   - annotations:
       artifacthub.io/changes: |
         - "updated template variables3"
@@ -400,4 +454,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-22T09:12:56.35938183Z"
+generated: "2022-04-25T03:41:36.745598682Z"
