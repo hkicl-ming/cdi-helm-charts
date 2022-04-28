@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hlf-peer
-version: 0.1.4
+version: 0.1.5
 appVersion: 2.3.2
 description: Hyperledger Fabric Peer Chart for CDI
 type: application
@@ -9,6 +9,5 @@ maintainers:
     email: "ming.reinfo@gmail.com"
 annotations:
   artifacthub.io/changes: |
-    - "rollback template variables3"
-    - "update virtualservice hostname"
+    - "update configmap for gupload"
   artifacthub.io/prerelease: "true"
