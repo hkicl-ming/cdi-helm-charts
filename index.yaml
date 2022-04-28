@@ -301,6 +301,23 @@ entries:
   hlf-peer:
   - annotations:
       artifacthub.io/changes: |
+        - "update configmap for gupload"
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 2.3.2
+    created: "2022-04-28T13:53:07.812053463Z"
+    description: Hyperledger Fabric Peer Chart for CDI
+    digest: 1da32c2129a82800af6992d1c963200e53500a2724a6457c3d599a141a05b9c5
+    maintainers:
+    - email: ming.reinfo@gmail.com
+      name: ming.reinfo
+    name: hlf-peer
+    type: application
+    urls:
+    - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-peer-0.1.5/hlf-peer-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      artifacthub.io/changes: |
         - "rollback template variables3"
         - "update virtualservice hostname"
       artifacthub.io/prerelease: "true"
@@ -454,4 +471,4 @@ entries:
     urls:
     - https://github.com/hkicl-ming/cdi-helm-charts/releases/download/hlf-resources-0.1.0/hlf-resources-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-25T03:41:36.745598682Z"
+generated: "2022-04-28T13:53:07.812127264Z"
